@@ -34,6 +34,11 @@
     background-color: #ffa798;
     color: black;
   }
+  
+  table thead tr:hover {
+  background-color: #ffa798 !important;
+}
+
   th, td {
     padding: 12px;
     text-align: left;
@@ -45,31 +50,60 @@
   tr:hover {
     background-color: #f9f9f9;
   }
-  @media screen and (max-width: 768px) {
-    table, thead, tbody, th, td, tr {
-      display: block;
+ @media (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+    
+/* Hide table header row for mobile */
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    background-color: #fff;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  /* Hormone cell becomes card header */
+  tbody tr td:first-child {
+    background-color: #ffa798;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2em;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+    margin: -15px -15px 10px -15px;
+  }
+  /* Remaining cells - label centered, value left-aligned */
+  tbody tr td {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 8px 0;
+  }
+
+  tbody tr td:before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 4px;
+    color: #8e599c;
+  }
+}
+
+/* Apple-specific spacing fix */
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 768px) {
+    tbody tr {
+      padding: 20px;
     }
-    thead tr {
-      display: none;
-    }
-    tr {
-      margin-bottom: 15px;
-      background-color: #ffffff;
-      border-radius: 12px;
-      padding: 10px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    td {
-      border: none;
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 10px;
-    }
-    td::before {
-      content: attr(data-label);
-      font-weight: bold;
-      color: #8e599c;
-      flex-basis: 50%;
+    tbody tr td {
+      padding: 10px 0;
     }
   }
 </style>
