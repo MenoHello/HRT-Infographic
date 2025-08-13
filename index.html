@@ -1,73 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HRT Hormones at a Glance</title>
 <style>
   body {
     font-family: 'Poppins', sans-serif;
     background-color: #ffe9e5;
     margin: 0;
-    padding: 20px;
-    color: #333;
+    padding: 0;
   }
-
   h1 {
     text-align: center;
-    color: #8e599c;
-    margin-bottom: 20px;
+    color: black;
+    padding: 20px;
+    margin: 0;
+    font-size: 2rem;
   }
-
+  .table-container {
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 20px;
+  }
   table {
-    border-collapse: collapse;
     width: 100%;
+    border-collapse: collapse;
     background-color: #ffffff;
-    border-radius: 15px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
   }
-
-  th {
+  thead {
     background-color: #ffa798;
-    color: #ffffff;
+    color: black;
+  }
+  th, td {
     padding: 12px;
     text-align: left;
-  }
-
-  td {
-    padding: 12px;
     border-bottom: 1px solid #ddd;
   }
-
-  tr:last-child td {
-    border-bottom: none;
+  th {
+    font-weight: bold;
   }
-
-  @media (max-width: 600px) {
+  tr:hover {
+    background-color: #f9f9f9;
+  }
+  @media screen and (max-width: 768px) {
     table, thead, tbody, th, td, tr {
       display: block;
-      width: 100%;
+    }
+    thead tr {
+      display: none;
     }
     tr {
       margin-bottom: 15px;
-    }
-    th {
-      display: none;
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
     td {
-      text-align: right;
-      position: relative;
-      padding-left: 50%;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 10px;
     }
     td::before {
       content: attr(data-label);
-      position: absolute;
-      left: 15px;
-      width: calc(50% - 30px);
-      text-align: left;
       font-weight: bold;
       color: #8e599c;
+      flex-basis: 50%;
     }
   }
 </style>
@@ -75,51 +77,48 @@
 <body>
 
 <h1>HRT Hormones at a Glance</h1>
-<table id="hrtTable">
-  <thead>
-    <tr id="tableHeader"></tr>
-  </thead>
-  <tbody id="tableBody"></tbody>
-</table>
+
+<div class="table-container">
+  <table id="hrtTable">
+    <thead>
+      <tr id="headerRow"></tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</div>
 
 <script>
   const sheetId = "1BCVC4IIhqWuNpGW1zyg112gNqevA5zEue1mMMmUkJQo";
   const sheetName = "Infographic";
-  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+  const url = `https://opensheet.elk.sh/${sheetId}/${sheetName}`;
 
   fetch(url)
-    .then(res => res.text())
+    .then(response => response.json())
     .then(data => {
-      // Strip off Google’s function call
-      const json = JSON.parse(data.substring(47, data.length - 2));
-      const rows = json.table.rows;
-      const cols = json.table.cols.map(col => col.label);
+      const headerRow = document.getElementById("headerRow");
+      const tableBody = document.getElementById("tableBody");
 
-      // Skip first row if it's branding/notes
-      const cleanRows = rows.filter(r => r.c && r.c.some(cell => cell && cell.v) && !r.c[0].v?.includes("Live-updating"));
-
-      // Create table header
-      const headerRow = document.getElementById("tableHeader");
-      cols.forEach(colName => {
+      // Create header row
+      const keys = Object.keys(data[0]);
+      keys.forEach(key => {
         const th = document.createElement("th");
-        th.textContent = colName;
+        th.textContent = key;
         headerRow.appendChild(th);
       });
 
-      // Create table body
-      const tableBody = document.getElementById("tableBody");
-      cleanRows.forEach(row => {
+      // Create data rows
+      data.forEach(row => {
         const tr = document.createElement("tr");
-        row.c.forEach((cell, i) => {
+        keys.forEach(key => {
           const td = document.createElement("td");
-          td.textContent = cell ? cell.v : "";
-          td.setAttribute("data-label", cols[i]);
+          td.textContent = row[key];
+          td.setAttribute("data-label", key);
           tr.appendChild(td);
         });
         tableBody.appendChild(tr);
       });
     })
-    .catch(err => console.error("Error loading sheet data:", err));
+    .catch(error => console.error("Error loading sheet:", error));
 </script>
 
 </body>
