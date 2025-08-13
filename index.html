@@ -11,6 +11,13 @@
     margin: 0;
     padding: 0;
   }
+  /* Set iframe to take up full available width */
+        #HRT-Infographic {
+            width: 100%;
+            border: 1px solid #ccc; /* Optional: Add a border for visibility */
+            display: block; /* Ensures no extra spacing below the iframe */
+            background-color: #fff;
+        }
   h1 {
     text-align: center;
     color: black;
@@ -155,6 +162,22 @@
     })
     .catch(error => console.error("Error loading sheet:", error));
 </script>
+ <script>
+            // Function to send the height of the body to the parent page
+            const sendHeightToParent = () => {
+                // Get the height of the document body
+                const height = document.body.scrollHeight;
+                // Send a message to the parent window with the height
+                // IMPORTANT: Change 'https://www.menohello.com' to the actual URL of this page.
+                window.parent.postMessage({ height: height }, 'https://www.menohello.com');
+            };
 
+            // Send the height on page load
+            window.addEventListener('load', sendHeightToParent);
+
+            // Also, send the height whenever the window is resized
+            // This is crucial for responsive design on mobile devices
+            window.addEventListener('resize', sendHeightToParent);
+        </script>
 </body>
 </html>
