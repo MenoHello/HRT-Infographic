@@ -87,7 +87,7 @@
     padding: 8px 0;
   }
 
-  tbody tr td:before {
+ tbody tr td:not(:first-child):before {
     content: attr(data-label);
     font-weight: bold;
     text-align: left;
