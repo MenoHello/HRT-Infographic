@@ -7,15 +7,6 @@
 <style>
   body {
     font-family: 'Poppins', sans-serif;
-    background-color: #ffe9e5;<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HRT Hormones at a Glance</title>
-<style>
-  body {
-    font-family: 'Poppins', sans-serif;
     background-color: #ffe9e5;
     margin: 0;
     padding: 0;
@@ -85,165 +76,7 @@
 </head>
 <body>
 
-
-<div class="table-container">
-  <table id="hrtTable">
-    <thead>
-      <tr id="headerRow"></tr>
-    </thead>
-    <tbody id="tableBody"></tbody>
-  </table>
-</div>
-<div id="HRT-InfographicContainer">
-<script>
-  const sheetId = "1BCVC4IIhqWuNpGW1zyg112gNqevA5zEue1mMMmUkJQo";
-  const sheetName = "Infographic";
-  const url = `https://opensheet.elk.sh/${sheetId}/${sheetName}`;
-
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      const headerRow = document.getElementById("headerRow");
-      const tableBody = document.getElementById("tableBody");
-
-      // Create header row
-      const keys = Object.keys(data[0]);
-      keys.forEach(key => {
-        const th = document.createElement("th");
-        th.textContent = key;
-        headerRow.appendChild(th);
-      });
-
-      // Create data rows
-      data.forEach(row => {
-        const tr = document.createElement("tr");
-        keys.forEach(key => {
-          const td = document.createElement("td");
-          td.textContent = row[key];
-          td.setAttribute("data-label", key);
-          tr.appendChild(td);
-        });
-        tableBody.appendChild(tr);
-      });
-    })
-    .catch(error => console.error("Error loading sheet:", error));
-</script>
-
-</body>
-</html>
-
-
-    margin: 0;
-    padding: 0;
-  }
-  /* Set iframe to take up full available width */
-        #HRT-Infographic {
-            width: 100%;
-            border: 1px solid #ccc; /* Optional: Add a border for visibility */
-            display: block; /* Ensures no extra spacing below the iframe */
-            background-color: #fff;
-        }
-  h1 {
-    text-align: center;
-    color: black;
-    padding: 20px;
-    margin: 0;
-    font-size: 2rem;
-  }
-  .table-container {
-    max-width: 100%;
-    overflow-x: auto;
-    padding: 20px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  thead {
-    background-color: #ffa798;
-    color: black;
-  }
-  
-  table thead tr:hover {
-  background-color: #ffa798 !important;
-}
-
-  th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  th {
-    font-weight: bold;
-  }
-  tr:hover {
-    background-color: #f9f9f9;
-  }
- @media (max-width: 768px) {
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-    table {
-    background-color: transparent; /* Makes the table background see-through */
-    border-radius: 0; /* Optional: remove rounding from the table container */
-  }
-/* Hide table header row for mobile */
-  thead {
-    display: none;
-  }
-
-  tbody tr {
-    background-color: #fff;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-
-  /* Hormone cell becomes card header */
-  tbody tr td:first-child {
-    background-color: #ffa798;
-    color: #000;
-    font-weight: bold;
-    text-align: center;
-    font-size: 1.2em;
-    padding: 10px;
-    border-radius: 8px 8px 0 0;
-    margin: -15px -15px 10px -15px;
-  }
-  /* Remaining cells - label centered, value left-aligned */
-  tbody tr td {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    padding: 8px 0;
-  }
-
- tbody tr td:not(:first-child):before {
-    content: attr(data-label);
-    font-weight: bold;
-    text-align: left;
-    margin-bottom: 4px;
-    color: #8e599c;
-  }
-}
-
-/* Apple-specific spacing fix */
-@supports (-webkit-touch-callout: none) {
-  @media (max-width: 768px) {
-    tbody tr {
-      padding: 20px;
-    }
-    tbody tr td {
-      padding: 10px 0;
-    }
-  }
-</style>
-</head>
-<body>
+<h1>HRT Hormones at a Glance</h1>
 
 <div class="table-container">
   <table id="hrtTable">
@@ -287,40 +120,7 @@
     })
     .catch(error => console.error("Error loading sheet:", error));
 </script>
- <script>
-            // Function to send the height of the body to the parent page
-            const sendHeightToParent = () => {
-                // Get the height of the document body
-                const height = document.body.scrollHeight;
-                // Send a message to the parent window with the height
-                // IMPORTANT: Change 'https://www.menohello.com' to the actual URL of this page.
-                window.parent.postMessage({ height: height }, 'https://www.menohello.com');
-            };
-
-            // Send the height on page load
-            window.addEventListener('load', sendHeightToParent);
-
-            // Also, send the height whenever the window is resized
-            // This is crucial for responsive design on mobile devices
-            window.addEventListener('resize', sendHeightToParent);
-        </script>
-  </div>
-<script>
-    function sendIframeHeight() {
-        const contentContainer = document.getElementById('HRT-InfographicContainer');
-        if (contentContainer) {
-            const height = contentContainer.scrollHeight + 50; // extra buffer to avoid scrollbar
-            window.parent.postMessage({ type: 'setIframeHeight', height: height }, 'https://www.menohello.com');
-        }
-    }
-    window.addEventListener('DOMContentLoaded', sendIframeHeight);
-    window.addEventListener('load', sendIframeHeight);
-    const containerToObserve = document.getElementById('HRT-InfographicContainer'); 
-    if (containerToObserve) {
-        const resizeObserver = new ResizeObserver(sendIframeHeight);
-        resizeObserver.observe(containerToObserve);
-    }
-</script>
 
 </body>
 </html>
+
