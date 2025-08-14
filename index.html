@@ -75,7 +75,7 @@
 </style>
 </head>
 <body>
-<div id="HRT-InfographicContainer">
+
 <h1>HRT Hormones at a Glance</h1>
 
 <div class="table-container">
@@ -119,24 +119,6 @@
       });
     })
     .catch(error => console.error("Error loading sheet:", error));
-</script>
-
-</div>
-<script>
-    function sendIframeHeight() {
-        const contentContainer = document.getElementById('HRT-InfographicContainer');
-        if (contentContainer) {
-            const height = contentContainer.scrollHeight + 50; // extra buffer to avoid scrollbar
-            window.parent.postMessage({ type: 'setIframeHeight', height: height }, 'https://www.menohello.com');
-        }
-    }
-    window.addEventListener('DOMContentLoaded', sendIframeHeight);
-    window.addEventListener('load', sendIframeHeight);
-    const containerToObserve = document.getElementById('HRT-InfographicContainer'); 
-    if (containerToObserve) {
-        const resizeObserver = new ResizeObserver(sendIframeHeight);
-        resizeObserver.observe(containerToObserve);
-    }
 </script>
 
 </body>
